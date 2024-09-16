@@ -73,7 +73,7 @@ def get_few_shot_db_chain():
     #     api_key = 'AIzaSyBtyMTpmbQXkDB41VXAMLKy_YgBrIiE10w'
     #     llm = GooglePalm(google_api_key=api_key, temperature=0.1)
 
-    os.environ['OPENAI_API_KEY'] = 'sk-proj-iQ8N1mNZ8x4RaVMUJWcxT3BlbkFJqjn1hltzGHntG9EzSgtg'
+    os.environ['OPENAI_API_KEY'] = 'API_KEY_HERE'
     llm = OpenAI(temperature=0.1, max_tokens=500, model_name='gpt-4')
 
     embeddings = HuggingFaceEmbeddings(model_name='sentence-transformers/all-MiniLM-L6-v2')
