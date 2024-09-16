@@ -65,6 +65,7 @@ few_shots = [
 ]
 
 
+
 def get_few_shot_db_chain():
     db = SQLDatabase.from_uri(
         "snowflake://Jeyasudha:Sep12345@mm75865.ap-south-1/HC_INSIGHTS/PUBLIC?role=ACCOUNTADMIN&warehouse=COMPUTE_WH",
