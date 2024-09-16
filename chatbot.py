@@ -70,10 +70,7 @@ def get_few_shot_db_chain():
         "snowflake://Jeyasudha:Sep12345@mm75865.ap-south-1/HC_INSIGHTS/PUBLIC?role=ACCOUNTADMIN&warehouse=COMPUTE_WH",
         sample_rows_in_table_info=3)
 
-    #     api_key = 'AIzaSyBtyMTpmbQXkDB41VXAMLKy_YgBrIiE10w'
-    #     llm = GooglePalm(google_api_key=api_key, temperature=0.1)
-
-    os.environ['OPENAI_API_KEY'] = 'API_KEY_HERE'
+    os.environ['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY')
     llm = OpenAI(temperature=0.1, max_tokens=500, model_name='gpt-4')
 
     embeddings = HuggingFaceEmbeddings(model_name='sentence-transformers/all-MiniLM-L6-v2')
