@@ -1,9 +1,7 @@
 # from langchain.llms import GooglePalm
 import os
-
 from langchain_community.utilities import SQLDatabase
 from langchain_experimental.sql import SQLDatabaseChain
-
 from langchain.prompts import SemanticSimilarityExampleSelector
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
@@ -11,68 +9,16 @@ from langchain.prompts import FewShotPromptTemplate
 from langchain.chains.sql_database.prompt import PROMPT_SUFFIX, _mysql_prompt
 from langchain.prompts.prompt import PromptTemplate
 from langchain_community.llms import OpenAI
-# from few_shots import few_shots
-# # import os
-#
 from dotenv import load_dotenv
+from few_shots import few_shots
+#import os
 
 load_dotenv()  # take environment variables from .env (especially openai api key)
-few_shots = [
-    {'Question': "Can you provide the first and last names of all providers who are listed as Orthopedic specialists?",
-     'SQLQuery': "SELECT PROVIDERFIRSTNAME, PROVIDERLASTNAME FROM provider WHERE SPECIALTY = 'Orthopedic' limit 1;",
-     'SQLResult': "Result of the SQL query",
-     'Answer': "0"},
-
-    {'Question': "What is the provider type for the provider named 'Makayla Ellis'?",
-     'SQLQuery': "SELECT PROVIDERTYPE FROM provider WHERE PROVIDERFIRSTNAME = 'Makayla' AND PROVIDERLASTNAME = 'Ellis';",
-     'SQLResult': "Result of the SQL query",
-     'Answer': "DO"},
-
-    {
-        'Question': "Could you provide me with the patient IDs for all clinical encounters where the encounter type is 'CL'?",
-        'SQLQuery': "select PATIENTID FROM CILINCALENCOUNTER WHERE CLINICALENCOUNTERTYPE='CL'",
-        'SQLResult': "Result of the SQL query",
-        'Answer': " "},
-
-    {
-        'Question': "Can you provide the patient IDs for clinical encounters where the encounter type is 'CL' and the parent context ID is 2001?",
-        'SQLQuery': "select PATIENTID FROM CILINCALENCOUNTER WHERE CLINICALENCOUNTERTYPE='CL' AND CONTEXTPARENTCONTEXTID = 2001",
-        'SQLResult': "Result of the SQL query",
-        'Answer': " "},
-
-    {'Question': "What is the patient's email address and their primary provider's last name?",
-     'SQLQuery': "SELECT p.EMAIL, prv.PROVIDERLASTNAME FROM patient p JOIN provider prv ON p.PRIMARYPROVIDERID = prv.PROVIDERID limit 1;",
-     'SQLResult': "Result of the SQL query",
-     'Answer': " "},
-
-    {'Question': "give me patient details of this patientid 361",
-     'SQLQuery': "SELECT PROVIDERFIRSTNAME, PROVIDERLASTNAME FROM provider WHERE SPECIALTY = 'Orthopedic' limit 1;",
-     'SQLResult': "Result of the SQL query",
-     'Answer': "0"},
-
-    # {'Question': "Number of unique sales orders",
-    #  'SQLQuery': ''' SELECT COUNT(DISTINCT m_soid) AS num_sales_orders FROM sales;''',
-    #  'SQLResult': "Result of the SQL query",
-    #  'Answer': "14"},
-    # {'Question': "Number of units fulfilled for the Boot Barn Dorag Cap Skull ",
-    #  'SQLQuery': "SELECT SUM(m_qtyfulfilled) AS total_qty_fulfilled FROM sales WHERE m_soitem_desc = 'Boot Barn Dorag Cap Skull';",
-    #  'SQLResult': "Result of the SQL query",
-    #  'Answer': "8"},
-    # {'Question': "Number of units fulfilled for the Boot Barn Dorag Cap Skull ",
-    #  'SQLQuery': "SELECT SUM(m_qtyfulfilled) AS total_qty_fulfilled FROM sales WHERE m_soitem_desc = 'Boot Barn Dorag Cap Skull';",
-    #  'SQLResult': "Result of the SQL query",
-    #  'Answer': "8"}
-]
-
-
-
 def get_few_shot_db_chain():
-    db = SQLDatabase.from_uri(
-        "snowflake://Jeyasudha:Sep12345@mm75865.ap-south-1/HC_INSIGHTS/PUBLIC?role=ACCOUNTADMIN&warehouse=COMPUTE_WH",
-        sample_rows_in_table_info=3)
+    db = SQLDatabase.from_uri("snowflake://Jeyasudha:Sep12345@mm75865.ap-south-1/T_SHIRT/PUBLIC?role=ACCOUNTADMIN&warehouse=COMPUTE_WH", sample_rows_in_table_info=3)
 
     os.environ['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY')
-    llm = OpenAI(temperature=0.1, max_tokens=500, model_name='gpt-4')
+    llm = OpenAI(temperature=0.1, max_tokens=500) #model_name='gpt-4'
 
     embeddings = HuggingFaceEmbeddings(model_name='sentence-transformers/all-MiniLM-L6-v2')
     to_vectorize = [" ".join(example.values()) for example in few_shots]
@@ -83,7 +29,8 @@ def get_few_shot_db_chain():
     )
     mysql_prompt = """SS Chatbot SQL Server Expert
 
-    Your name is SS Chatbot, a SQL Server expert. Respond to each question by first crafting a syntactically correct SQL Server query and then providing an answer based on the query results.
+    Your name is SS Chatbot, a SQL Server expert. Respond to each question by first crafting a syntactically correct SQL Server
+    query and then providing an answer based on the query results.
 
     Rules:
 
@@ -100,7 +47,8 @@ def get_few_shot_db_chain():
     2. Results Presentation:
        - Provide answers in complete sentences or tables, as appropriate.
        - Format the results in a table if the question asks for a list or details of multiple items.
-       - If the user requests a chart format, respond with a dictionary where keys are column names and values are lists of column values.
+       - If the user requests a chart format, respond with a dictionary where keys are column names and values are lists of 
+        column values.
 
     3. Language and Character:
        - Respond in the language used in the question.
@@ -115,7 +63,6 @@ def get_few_shot_db_chain():
         - If a question is irrelevant, unrelated to the database content, or outside the scope of SS Chatbot's expertise,
           respond by informing the user that the question is not applicable or does not pertain to the available data.
         - If SQLQuery is N/A, the SS chatbot should respond that the question is irrelevant.
-
 
     Response Format:
 
@@ -146,4 +93,8 @@ def get_few_shot_db_chain():
 
 if __name__ == "__main__":
     chain = get_few_shot_db_chain()
-    print(chain.run(''' How many homeless people's are is single '''))
+    print(chain.run(''' Total revenue generated from fulfilled items ?'''))
+
+
+
+

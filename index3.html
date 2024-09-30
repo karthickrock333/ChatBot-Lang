@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SS Chatbot</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .chat-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        #chat-messages {
+            scrollbar-width: thin;
+            scrollbar-color: #4a5568 #cbd5e0;
+        }
+
+        #chat-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #chat-messages::-webkit-scrollbar-track {
+            background: #cbd5e0;
+            border-radius: 4px;
+        }
+
+        #chat-messages::-webkit-scrollbar-thumb {
+            background-color: #4a5568;
+            border-radius: 4px;
+        }
+
+        .message {
+            max-width: 80%;
+            margin-bottom: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 20px;
+            position: relative;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            background-color: #3498db;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 0;
+        }
+
+        .message.bot {
+            background-color: #f0f0f0;
+            color: #333;
+            align-self: flex-start;
+            border-bottom-left-radius: 0;
+        }
+
+        .message::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border: 15px solid transparent;
+        }
+
+        .message.user::after {
+            right: -15px;
+            border-left-color: #3498db;
+            border-bottom: 0;
+        }
+
+        .message.bot::after {
+            left: -15px;
+            border-right-color: #f0f0f0;
+            border-bottom: 0;
+        }
+
+        #user-input {
+            background-color: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        #user-input:focus {
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+        }
+
+        button {
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="chat-container w-full max-w-lg p-6">
+        <h1 class="text-3xl font-semibold mb-6 text-center text-gray-800">SS Chatbot</h1>
+        <div id="chat-messages" class="mb-6 h-96 overflow-y-auto p-4 space-y-4 flex flex-col"></div>
+        <form id="chat-form" class="flex space-x-2">
+            <input type="text" id="user-input" class="flex-grow px-4 py-2 rounded-full focus:outline-none" placeholder="Type your message...">
+            <button type="submit" class="bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600 focus:outline-none">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+            <button id="record-button" type="button" class="bg-green-500 text-white p-2 rounded-full hover:bg-green-600 focus:outline-none">
+                <i class="fas fa-microphone"></i>
+            </button>
+        </form>
+    </div>
+    <script>
+        // ... (JavaScript remains the same as in the previous version)
+
+        function addMessage(sender, message) {
+            const messageElement = document.createElement('div');
+            messageElement.className = `message ${sender === 'You' ? 'user' : 'bot'}`;
+            messageElement.textContent = message;
+            chatMessages.appendChild(messageElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    </script>
+</body>
+</html>

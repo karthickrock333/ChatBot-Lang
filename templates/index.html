@@ -6,10 +6,10 @@
     <title>SS Chatbot</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Roboto', sans-serif;
         }
         .chat-container {
             background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
@@ -21,25 +21,18 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .chatbot-title {
-            background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-fill-color: transparent;
-        }
     </style>
 </head>
 <body class="bg-gray-100 h-screen flex items-center justify-center">
-    <div class="chat-container bg-white p-8 rounded-xl shadow-lg w-full max-w-lg">
-        <h1 class="chatbot-title text-4xl font-bold mb-8 text-center">SS Chatbot</h1>
-        <div id="chat-messages" class="mb-6 h-96 overflow-y-auto bg-gray-50 p-4 rounded-lg shadow-inner"></div>
+    <div class="chat-container bg-white p-6 rounded-xl shadow-lg w-full max-w-lg">
+        <h1 class="text-3xl font-bold mb-6 text-center text-blue-600">SS Chatbot</h1>
+        <div id="chat-messages" class="mb-6 h-96 overflow-y-auto bg-gray-50 p-4 rounded-lg"></div>
         <form id="chat-form" class="flex">
-            <input type="text" id="user-input" class="flex-grow border-2 border-gray-300 rounded-l-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ask a question...">
-            <button type="submit" class="bg-blue-600 text-white px-5 py-3 rounded-none hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
+            <input type="text" id="user-input" class="flex-grow border-2 border-gray-300 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ask a question...">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-none hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
                 <i class="fas fa-paper-plane"></i>
             </button>
-            <button id="record-button" type="button" class="bg-green-600 text-white px-5 py-3 rounded-r-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-300">
+            <button id="record-button" type="button" class="bg-green-500 text-white px-4 py-2 rounded-r-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-300">
                 <i class="fas fa-microphone"></i>
             </button>
         </form>

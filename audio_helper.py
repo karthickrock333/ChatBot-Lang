@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Set up OpenAI client
-openai.api_key = os.getenv('OPENAI_API_KEY1')
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
 # Audio recording settings
 FORMAT = pyaudio.paInt16
